@@ -28,11 +28,12 @@ canvas1.configure(bg='white') #background color
 #function to set image to a more usable format using PIL 
 def set_image(picture_number):
     return (ImageTk.PhotoImage(Image.open(path + picture_number+".jpg")))
-    
+                
 #Functin for evolve button click
 def button_evolve():
-    global original,evolve1, evolve2, arrow1, arrow2 #set global variables ~ required for multiple images in TKINTER
-    #Create a second form that will contain evolution images
+    global original,evolve1, evolve2, evolve3, arrow #set global variables ~ required for multiple images in TKINTER
+    #Set arrow images
+    arrow = ImageTk.PhotoImage(Image.open("arrow.jpg"))
     #Store input of Poke search
     string = inputtxt.get()
     mystring = string.capitalize() #capitalize first letter to match CSV
@@ -41,25 +42,42 @@ def button_evolve():
         for lines in reader: #loop through columns of CSV
             if lines[1] == mystring: #if column [1] (second column that contains pokemon names) equals the string the user searches
                 evolveform = Toplevel(form)
-                evolveform.geometry("800x650")
+                evolveform.geometry("1200x245")
                 evolveform.configure(bg='white')
                 evolveform.title("Evolution of " + string) #Set title
-                first_evolution = lines[0]   
+                first_evolution = lines[0]
                 original = set_image(first_evolution)
-                if ',' in lines[13]: #searches for comma in csv, this identifies that pokemon evolves twice
-                    a,b = lines[13].split(',')
-                    Label(evolveform,image=original).place(x='250',y='0')
+                if mystring == "Eevee":
+                    evolveform.geometry("1200x600")
+                    a,b,c = lines[13].split(',')
+                    Label(evolveform,image=original).place(x='450',y='0')
                     evolve1 = set_image(a)
-                    Label(evolveform,image=evolve1).place(x='500',y='400')
+                    Label(evolveform,image=evolve1).place(x='0',y='300')
                     evolve2 = set_image(b)
-                    Label(evolveform,image=evolve2).place(x='0',y='400')
+                    Label(evolveform,image=evolve2).place(x='450',y='300')
+                    evolve3 = set_image(c)
+                    Label(evolveform,image=evolve3).place(x='898',y='300')
+                    Label(evolveform,image=arrow).place(x='350',y='100')
+                elif ',' in lines[13]: #searches for comma in csv, this identifies that pokemon evolves twice
+                    a,b = lines[13].split(',')
+                    Label(evolveform,image=original).place(x='3',y='0')
+                    evolve1 = set_image(a)
+                    Label(evolveform,image=evolve1).place(x='450',y='0')
+                    evolve2 = set_image(b)
+                    Label(evolveform,image=evolve2).place(x='898',y='0')
+                    Label(evolveform,image=arrow).place(x='350',y='100')
+                    Label(evolveform,image=arrow).place(x='800',y='100')
                 elif lines[13] != "0": #if the evolution column does not equal zero, this assumes that pokemon only evolve once
-                    Label(evolveform,image=original).place(x='250',y='0')
+                    evolveform.geometry("800x245")
+                    Label(evolveform,image=original).place(x='3',y='0')
                     evolve1 = set_image(lines[13])
-                    Label(evolveform,image=evolve1).place(x='250',y='400')
+                    Label(evolveform,image=evolve1).place(x='500',y='0')
+                    Label(evolveform,image=arrow).place(x='370',y='100')
                 else: #assumes that the pokemon does not evolve
                     evolveform.title(string + " is fully evolved")
-                    Label(evolveform,image=original).place(x='250',y='200')
+                    evolveform.geometry("300x245")
+                    Label(evolveform,image=original).place(x='0',y='0')
+                    
                                     
 #Button press function 
 def button_search():
@@ -72,8 +90,16 @@ def button_search():
         reader = csv.reader(csv_file, delimiter=',') 
         for lines in reader:
             if lines[1] == mystring:
-                type1 = lines[2], type2 = lines[3], hp = lines[5], attack = lines[6], defense = lines[7] #setting stats variables based on pokmeon selected
-                spatk = lines[8], spdef = lines[9],speed = lines[10],legendary = lines[12],image = lines[0] #two lines for readablility
+                type1 = lines[2]
+                type2 = lines[3]
+                hp = lines[5]
+                attack = lines[6]
+                defense = lines[7] 
+                spatk = lines[8]
+                spdef = lines[9]
+                speed = lines[10]
+                legendary = lines[12]
+                image = lines[0] 
         pokeimage = set_image(image)
         #pokeimage = PhotoImage(file = pokeimage1)
         pokelabel = Label(form,image=pokeimage) #calls image function 
