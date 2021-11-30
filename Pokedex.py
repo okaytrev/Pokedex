@@ -46,7 +46,7 @@ def set_image(picture_number):
     return (ImageTk.PhotoImage(Image.open(path + picture_number+".jpg")))
 
 
-#Gets the current pokemon input and stores as string
+#Gets the current pokemon input and stores the entire row of pokemon data as list
 def current_pokemon_list():
     input_string = inputtxt.get()
     cap_string = input_string.capitalize()
@@ -112,6 +112,23 @@ def button_random():
     inputtxt.insert(0,string)
 ########################################################
 
+#Next button
+def next_button():
+    index = -1
+    input_string = inputtxt.get()
+    cap_string = input_string.capitalize()
+    for row in pokemonlist:
+        index+=1
+        if row[1] == cap_string:
+            index += 1 
+            single_pokemon_list = pokemonlist[index]
+            string = single_pokemon_list[1]
+    update_labels(single_pokemon_list)
+    inputtxt.delete(0,END)
+    inputtxt.insert(0,string)
+    index = -1
+########################################################
+
 #Function for evolve button click
 def button_evolve():
     global original,evolve1, evolve2, evolve3, arrow #set global variables ~ required for multiple images in TKINTER - something about garbage collection
@@ -167,7 +184,7 @@ def button_search():
     single_pokemon_list = current_pokemon_list()
     update_labels(single_pokemon_list)
 
-######################################### MORE GUI STUFF #####################################################
+######################################### Initial Form GUI #####################################################
 inputtxt = tk.Entry(form)
 pokemon_label = tk.Label(form,bg='white',text="Pokemon: ")
 namelabel = tk.Label(form,bg='white',text=name)
@@ -199,8 +216,8 @@ canvas1.create_window(150, 480, height=70,width=130, window=button_pokesearch)
 canvas1.create_window(510, 490, height=55,width=130, window=buttonevolve)
 canvas1.create_window(640, 490, height=55,width=130, window=buttonrandom)
 ###############################################################################################################
+
+
 #initiate main form
-
-
 form.mainloop()
 
