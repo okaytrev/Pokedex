@@ -364,12 +364,12 @@ def enable_buttons():
     buttoncatch["state"]=NORMAL
     buttonpokesearch["state"]=NORMAL
     randomsix["state"]=NORMAL
-    
+
 def random_six():
     global pokeimage1,pokeimage2,pokeimage3,pokeimage4,pokeimage5,pokeimage6
     count = 1
     sixform = Toplevel(form) 
-    sixform.geometry("900x480")
+    sixform.geometry("900x482")
     sixform.configure(bg='white')
     sixform.title("Random Team")
     random_list = []
